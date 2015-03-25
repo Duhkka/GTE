@@ -23,71 +23,30 @@ shinyUI(fluidPage(
         navbarMenu("DC",
                    tabPanel("Single Tag",
                             tabsetPanel(type = "tabs",
-                                        tabPanel("Single Level", dataTableOutput("dcsltable")))))
+                                        tabPanel("Single Level", dataTableOutput("dcsltable")),
+                                        tabPanel("Summary", verbatimTextOutput("dcslsummary")))),
+                   tabPanel("Background",
+                            tabsetPanel(type = "tabs",
+                                        tabPanel("Background", dataTableOutput("dcbacktable")))),
+                   tabPanel("Cy Study",
+                            tabsetPanel(type = "tabs",
+                                        tabPanel("Cy Study", dataTableOutput("dccytable")))),
+                   tabPanel("Competition",
+                            tabsetPanel(type = "tabs",
+                                        tabPanel("Competition", dataTableOutput("dccomptable"))))),
+        tabPanel("Plots",
+                 navlistPanel(
+                   "Header",
+                   tabPanel("First",
+                            h3("This is the first panel")
+                   ),
+                   tabPanel("Second",
+                            h3("This is the second panel")
+                   ),
+                   "-----",
+                   tabPanel("Third",
+                            h3("This is the third panel")
+                   )
+                 ))
         )))
         
-#         ,
-#         navbarMenu("AC",
-#         tabPanel("Single Tag",
-#                  tabsetPanel(type = "tabs", 
-#                              tabPanel("Runs", plotOutput("runPlot")),
-#                              tabPanel("Mean OC", plotOutput("mocPlot")),
-#                              tabPanel("Summary", verbatimTextOutput("summary")), 
-#                              tabPanel("Single Level ", dataTableOutput("sltable"))
-#                              
-#                  )
-#         ),
-#         tabPanel("Cy3 Effect Study",
-#                  tabsetPanel(type = "tabs",
-#                              tabPanel("Summary", verbatimTextOutput("summary")),
-#                              tabPanel("Dye", dataTableOutput("dtable"))),
-#                  tabPanel("Plots")
-#         ),
-#         tabPanel("Competition",
-#                  tabsetPanel(type = "tabs",
-#                              tabPanel("Summary", verbatimTextOutput("summary")),
-#                              tabPanel("Competition", dataTableOutput("ctable"))),
-#                  tabPanel("Plots")
-#         ),
-#         tabPanel("Background",
-#                  tabsetPanel(type = "tabs",
-#                              tabPanel("Summary", verbatimTextOutput("summary")),
-#                              tabPanel("Background", dataTableOutput("btable"))),
-#                  tabPanel("Plots")
-#         ),
-#         tabPanel("Aggregate Plots", 
-#                  dataTableOutput("table"))
-#         
-#         ),
-#         navbarMenu("DC",
-#                 tabPanel("Single Tag",
-#                          tabsetPanel(type = "tabs", 
-#                                      tabPanel("Quality Runs", plotOutput("gtagPlot")),
-#                                      tabPanel("Mean OC", plotOutput("mocPlot")),
-#                                      tabPanel("Summary", verbatimTextOutput("summary")), 
-#                                      tabPanel("Single Level ", dataTableOutput("sltable"))
-#                                      
-#                          )
-#                 ),
-#                 tabPanel("Cy3 Effect Study",
-#                          tabsetPanel(type = "tabs",
-#                                      tabPanel("Summary", verbatimTextOutput("summary")),
-#                                      tabPanel("Dye", dataTableOutput("dtable"))),
-#                                      tabPanel("Plots")
-#                 ),
-#                 tabPanel("Competition",
-#                          tabsetPanel(type = "tabs",
-#                                      tabPanel("Summary", verbatimTextOutput("summary")),
-#                                      tabPanel("Competition", dataTableOutput("ctable"))),
-#                                      tabPanel("Plots")
-#                 ),
-#                 tabPanel("Background",
-#                           tabsetPanel(type = "tabs",
-#                                       tabPanel("Summary", verbatimTextOutput("summary")),
-#                                       tabPanel("Background", dataTableOutput("btable"))),
-#                                       tabPanel("Plots")
-#                 ),
-#                 tabPanel("Aggregate Plots", 
-#                          dataTableOutput("table"))
-#                 
-#              ))))

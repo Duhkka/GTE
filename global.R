@@ -11,15 +11,25 @@ dc_competition          = read.csv("COMP CSV.csv", as.is=T)
 dc_single_colnames      = names(dc_single)
 dc_background_colnames  = names(dc_background)
 dc_cy_colnames          = names(dc_cy)
-dc_competition          = names(dc_competition)
+dc_competition_colnames = names(dc_competition)
 
 dc_single_Dates         = as.Date(as.character(dc_single$Date), "%y%m%d")
 dc_single_date_list     = structure(dc_single_Dates, Class="Date")
 dc_single_earliest      = min(dc_single_date_list, na.rm=TRUE)
 dc_single_latest        = max(dc_single_date_list, na.rm=TRUE)
 dc_single_tags          = dc_single[!duplicated(dc_single$Tag.Name),c("Tag.Name")]
-dc_single_data = data.frame(format(dc_single_Dates),single[c("Tag.Name","Full.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Quality.Run")])
+dc_single_data = data.frame(format(dc_single_Dates),dc_single[c("Tag.Name","Full.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Quality.Run")])
 names(dc_single_data) = c("Date","Tag","TagName","Station","Chip","Status","Clean","Seq","Mean.OC","sigma.OC","Mean.DT","Quality.Run")
+gtags = dc_single[!duplicated(dc_single$Tag.Name),c("Tag.Name")]
+
+dc_background_Dates = as.Date(as.character(dc_background$Date), "%y%m%d")
+dc_background_data = data.frame(format(dc_background_Dates),dc_background[c("Tag.Name","Station","ChipNum","Status")])
+
+dc_cy_Dates = as.Date(as.character(dc_cy$Date),"%y%m%d")
+dc_cy_data = data.frame(format(dc_cy_Dates),dc_cy[c("Tag.Name","Station","ChipNum","Status")])
+
+dc_competition_Dates = as.Date(as.character(dc_competition$Date),"%y%m%d")
+dc_competition_data = data.frame(format(dc_competition_Dates), dc_competition[c("Tag.Name","Station","ChipNum","Status")])
 
 ac_single               = read.csv("single_tag_ac.csv",as.is=T)
 ac_background           = read.csv("ac_background.csv", as.is=T)
@@ -41,6 +51,7 @@ ac_background_earliest  = min(ac_background_date_list, na.rm=TRUE)
 ac_background_latest    = max(ac_background_date_list, na.rm=TRUE)
 ac_background_tags      = ac_background[!duplicated(ac_background$tags),c("tags")]
 ac_background_data      = data.frame(format(ac_background_Dates),ac_background[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
+
 
 # HemoDates = as.Date(as.character(ac_single$Hemo.Complex.Prep),"%y%m%d")
 # date_list = structure(sDates,Class="Date")
