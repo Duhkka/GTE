@@ -11,44 +11,55 @@ shinyUI(fluidPage(
         tabPanel("Overview",     
         tabsetPanel(tabPanel("Recent Runs", plotOutput("ovslrunPlot")),
                tabPanel("Active Cells", plotOutput("ovslcellPlot")),
-               tabPanel("Summary", verbatimTextOutput("ovslSummary")))
+               tabPanel("Summary", verbatimTextOutput("ovslSummary")))),
         
-        ))))
-# )
-# ),
-#     navbarMenu("AC",
-#            tabPanel("Single Tag",
-#                     tabsetPanel(type = "tabs", 
-#                                 tabPanel("Runs", plotOutput("runPlot")),
-#                                 tabPanel("Mean OC", plotOutput("mocPlot")),
-#                                 tabPanel("Summary", verbatimTextOutput("summary")), 
-#                                 tabPanel("Single Level ", dataTableOutput("sltable"))
-#                                 
-#                     )
-#            ),
-#            tabPanel("Cy3 Effect Study",
-#                     tabsetPanel(type = "tabs",
-#                                 tabPanel("Summary", verbatimTextOutput("summary")),
-#                                 tabPanel("Dye", dataTableOutput("dtable"))),
-#                     tabPanel("Plots")
-#            ),
-#            tabPanel("Competition",
-#                     tabsetPanel(type = "tabs",
-#                                 tabPanel("Summary", verbatimTextOutput("summary")),
-#                                 tabPanel("Competition", dataTableOutput("ctable"))),
-#                     tabPanel("Plots")
-#            ),
-#            tabPanel("Background",
-#                     tabsetPanel(type = "tabs",
-#                                 tabPanel("Summary", verbatimTextOutput("summary")),
-#                                 tabPanel("Background", dataTableOutput("btable"))),
-#                     tabPanel("Plots")
-#            ),
-#            tabPanel("Aggregate Plots", 
-#                     dataTableOutput("table"))
-#            
-# ),
-#      navbarMenu("DC",
+        navbarMenu("AC",
+                   tabPanel("Single Tag", 
+                            tabsetPanel(type = "tabs",
+                                        tabPanel("Single Level", dataTableOutput("acltable")))),
+                   tabPanel("Background",
+                            tabsetPanel(type = "tabs",
+                                        tabPanel("Background", dataTableOutput("acbacktable"))))),
+        navbarMenu("DC",
+                   tabPanel("Single Tag",
+                            tabsetPanel(type = "tabs",
+                                        tabPanel("Single Level", dataTableOutput("dcsltable")))))
+        )))
+        
+#         ,
+#         navbarMenu("AC",
+#         tabPanel("Single Tag",
+#                  tabsetPanel(type = "tabs", 
+#                              tabPanel("Runs", plotOutput("runPlot")),
+#                              tabPanel("Mean OC", plotOutput("mocPlot")),
+#                              tabPanel("Summary", verbatimTextOutput("summary")), 
+#                              tabPanel("Single Level ", dataTableOutput("sltable"))
+#                              
+#                  )
+#         ),
+#         tabPanel("Cy3 Effect Study",
+#                  tabsetPanel(type = "tabs",
+#                              tabPanel("Summary", verbatimTextOutput("summary")),
+#                              tabPanel("Dye", dataTableOutput("dtable"))),
+#                  tabPanel("Plots")
+#         ),
+#         tabPanel("Competition",
+#                  tabsetPanel(type = "tabs",
+#                              tabPanel("Summary", verbatimTextOutput("summary")),
+#                              tabPanel("Competition", dataTableOutput("ctable"))),
+#                  tabPanel("Plots")
+#         ),
+#         tabPanel("Background",
+#                  tabsetPanel(type = "tabs",
+#                              tabPanel("Summary", verbatimTextOutput("summary")),
+#                              tabPanel("Background", dataTableOutput("btable"))),
+#                  tabPanel("Plots")
+#         ),
+#         tabPanel("Aggregate Plots", 
+#                  dataTableOutput("table"))
+#         
+#         ),
+#         navbarMenu("DC",
 #                 tabPanel("Single Tag",
 #                          tabsetPanel(type = "tabs", 
 #                                      tabPanel("Quality Runs", plotOutput("gtagPlot")),
@@ -79,39 +90,4 @@ shinyUI(fluidPage(
 #                 tabPanel("Aggregate Plots", 
 #                          dataTableOutput("table"))
 #                 
-#      ),
-#      
-#      navbarMenu("Explore",
-#                 tabPanel("Compare Tag",
-#                          tabsetPanel(type = "tabs", 
-#                                      tabPanel("AC vs DC", plotOutput("stacdcPlot")),
-#                                      tabPanel("Another Tag(s)", plotOutput("mocPlot")),
-#                                      tabPanel("Summary", verbatimTextOutput("summary")), 
-#                                      tabPanel("Single Level ", dataTableOutput("sltable"))
-#                                      
-#                          )
-#                 ),
-#                 tabPanel("Different Tags",
-#                          tabsetPanel(type = "tabs",
-#                                      tabPanel("Summary", verbatimTextOutput("summary")),
-#                                      tabPanel("Dye", dataTableOutput("dtable"))),
-#                          tabPanel("Plots")
-#                 ),
-#                 tabPanel("Competition",
-#                          tabsetPanel(type = "tabs",
-#                                      tabPanel("Summary", verbatimTextOutput("summary")),
-#                                      tabPanel("Competition", dataTableOutput("ctable"))),
-#                          tabPanel("Plots")
-#                 ),
-#                 tabPanel("Background",
-#                          tabsetPanel(type = "tabs",
-#                                      tabPanel("Summary", verbatimTextOutput("summary")),
-#                                      tabPanel("Background", dataTableOutput("btable"))),
-#                          tabPanel("Plots")
-#                 ),
-#                 tabPanel("Aggregate Plots", 
-#                          dataTableOutput("table"))
-#                 
-#      
-#       )))
-# )
+#              ))))

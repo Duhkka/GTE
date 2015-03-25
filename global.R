@@ -3,17 +3,44 @@ setwd("~/Projects/R/GTE")
 #library(DBI)
 options(stringsAsFactors=F)
 
-dc_single = read.csv("SingleLevel.csv",as.is=T)
-ac_single = read.csv("single_tag_ac.csv",as.is=T)
-ac_colnames = names(ac_single)
-dc_colnames = names(dc_single)
+dc_single               = read.csv("SingleLevel.csv",as.is=T)
+dc_background           = read.csv("BACK CSV.csv", as.is=T)
+dc_cy                   = read.csv("CY CSV.csv", as.is=T)
+dc_competition          = read.csv("COMP CSV.csv", as.is=T)
 
-ac_Dates = as.Date(as.character(ac_single$expDate),"%y%m%d")
-ac_date_list = structure(ac_Dates,Class="Date")
-ac_earliest = min(ac_date_list,na.rm=TRUE)
-ac_latest   = max(ac_date_list,na.rm=TRUE)
-ac_tags = ac_single[!duplicated(ac_single$tags),c("tags")]
-ac_single_data = data.frame(format(ac_Dates),ac_single[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
+dc_single_colnames      = names(dc_single)
+dc_background_colnames  = names(dc_background)
+dc_cy_colnames          = names(dc_cy)
+dc_competition          = names(dc_competition)
+
+dc_single_Dates         = as.Date(as.character(dc_single$Date), "%y%m%d")
+dc_single_date_list     = structure(dc_single_Dates, Class="Date")
+dc_single_earliest      = min(dc_single_date_list, na.rm=TRUE)
+dc_single_latest        = max(dc_single_date_list, na.rm=TRUE)
+dc_single_tags          = dc_single[!duplicated(dc_single$Tag.Name),c("Tag.Name")]
+dc_single_data = data.frame(format(dc_single_Dates),single[c("Tag.Name","Full.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Quality.Run")])
+names(dc_single_data) = c("Date","Tag","TagName","Station","Chip","Status","Clean","Seq","Mean.OC","sigma.OC","Mean.DT","Quality.Run")
+
+ac_single               = read.csv("single_tag_ac.csv",as.is=T)
+ac_background           = read.csv("ac_background.csv", as.is=T)
+
+ac_single_colnames      = names(ac_single)
+ac_background_colnames  = names(ac_background)
+
+
+ac_single_Dates         = as.Date(as.character(ac_single$expDate),"%y%m%d")
+ac_single_date_list     = structure(ac_single_Dates,Class="Date")
+ac_single_earliest      = min(ac_single_date_list,na.rm=TRUE)
+ac_single_latest        = max(ac_single_date_list,na.rm=TRUE)
+ac_single_tags          = ac_single[!duplicated(ac_single$tags),c("tags")]
+ac_single_data          = data.frame(format(ac_single_Dates),ac_single[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
+
+ac_background_Dates     = as.Date(as.character(ac_background$expDate), "%y%m%d")
+ac_background_date_list = structure(ac_background_Dates, Class="Date")
+ac_background_earliest  = min(ac_background_date_list, na.rm=TRUE)
+ac_background_latest    = max(ac_background_date_list, na.rm=TRUE)
+ac_background_tags      = ac_background[!duplicated(ac_background$tags),c("tags")]
+ac_background_data      = data.frame(format(ac_background_Dates),ac_background[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
 
 # HemoDates = as.Date(as.character(ac_single$Hemo.Complex.Prep),"%y%m%d")
 # date_list = structure(sDates,Class="Date")
