@@ -8,7 +8,7 @@ shinyUI(fluidPage(
   navbarPage(title ="TAG Experiments",collapsible = TRUE,inverse = FALSE,id = "NavTag",
              header = "", footer = "",theme =  shinytheme("cerulean"),
               #themes: cerulean,cosmo,flatly,journal,readable,spacelab,united  
-        tabPanel("Overview",     
+        tabPanel("OVERVIEW",     
         tabsetPanel(tabPanel("Recent Runs", plotOutput("ovslrunPlot")),
                tabPanel("Active Cells", plotOutput("ovslcellPlot")),
                tabPanel("Summary", verbatimTextOutput("ovslSummary")))),
@@ -34,19 +34,20 @@ shinyUI(fluidPage(
                    tabPanel("Competition",
                             tabsetPanel(type = "tabs",
                                         tabPanel("Competition", dataTableOutput("dccomptable"))))),
-        tabPanel("Plots",
-                 navlistPanel(
-                   "Header",
-                   tabPanel("First",
-                            h3("This is the first panel")
-                   ),
-                   tabPanel("Second",
-                            h3("This is the second panel")
-                   ),
-                   "-----",
-                   tabPanel("Third",
-                            h3("This is the third panel")
-                   )
-                 ))
+        navbarMenu("EXPLORE",
+                   tabPanel("By Tag (DC)",
+                   sidebarLayout(position="right",
+                     sidebarPanel(
+                       selectInput("dctagname", "Select Tag:",choices=dc_single_tags)
+                     ),
+                        mainPanel(plotOutput("exTagDC")))),
+                   tabPanel("By Tag (AC)",
+                   sidebarLayout(position="right",
+                                 sidebarPanel(
+                                   selectInput("actagname", "Select Tag:",choices=ac_single_tags)
+                                 ),
+                                 mainPanel(plotOutput("exTagAC"))))
+                   
+        )
         )))
         

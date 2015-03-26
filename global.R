@@ -1,6 +1,4 @@
 setwd("~/Projects/R/GTE")
-#library(RMySQL)
-#library(DBI)
 options(stringsAsFactors=F)
 
 dc_single               = read.csv("SingleLevel.csv",as.is=T)
@@ -20,7 +18,7 @@ dc_single_latest        = max(dc_single_date_list, na.rm=TRUE)
 dc_single_tags          = dc_single[!duplicated(dc_single$Tag.Name),c("Tag.Name")]
 dc_single_data = data.frame(format(dc_single_Dates),dc_single[c("Tag.Name","Full.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Quality.Run")])
 names(dc_single_data) = c("Date","Tag","TagName","Station","Chip","Status","Clean","Seq","Mean.OC","sigma.OC","Mean.DT","Quality.Run")
-gtags = dc_single[!duplicated(dc_single$Tag.Name),c("Tag.Name")]
+
 
 dc_background_Dates = as.Date(as.character(dc_background$Date), "%y%m%d")
 dc_background_data = data.frame(format(dc_background_Dates),dc_background[c("Tag.Name","Station","ChipNum","Status")])
@@ -52,7 +50,41 @@ ac_background_latest    = max(ac_background_date_list, na.rm=TRUE)
 ac_background_tags      = ac_background[!duplicated(ac_background$tags),c("tags")]
 ac_background_data      = data.frame(format(ac_background_Dates),ac_background[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
 
-
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+  
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+  
+  numPlots = length(plots)
+  
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                     ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+  
+  if (numPlots==1) {
+    print(plots[[1]])
+    
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+      
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
 # HemoDates = as.Date(as.character(ac_single$Hemo.Complex.Prep),"%y%m%d")
 # date_list = structure(sDates,Class="Date")
 # earliest = min(date_list,na.rm=TRUE)

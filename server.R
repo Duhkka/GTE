@@ -113,4 +113,20 @@ shinyServer(function(input, output,session) {
     data.frame(GTags())
   })
 
+  output$exTagDC <- renderPlot({ 
+    TagDC=reactive({
+    t2ids = dc_single_data$Tag==input$dctagname
+    qids = dc_single$Quality.Run == "Yes"
+    qt2dt  = dc_single_data[,c("Mean.DT")][t2ids][qids]
+    DT = data.frame(na.omit(qt2dt[qt2dt>0]))
+    names(DT)=c("DT")
+    qt2oc  = dc_single_data[,c("Mean.OC")][t2ids][qids]
+    OC = data.frame(na.omit(qt2oc[qt2oc>0 ]))
+    names(OC)=c("OC")
+    p1 = ggplot(OC, aes(x='',y=OC)) + geom_boxplot()
+    p2 = ggplot(DT, aes(x='',y=DT)) + geom_boxplot()
+    multiplot(p1,p2,  cols=2) 
+    })
+     TagDC() })
+
 })  
