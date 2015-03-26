@@ -16,8 +16,8 @@ dc_single_date_list     = structure(dc_single_Dates, Class="Date")
 dc_single_earliest      = min(dc_single_date_list, na.rm=TRUE)
 dc_single_latest        = max(dc_single_date_list, na.rm=TRUE)
 dc_single_tags          = dc_single[!duplicated(dc_single$Tag.Name),c("Tag.Name")]
-dc_single_data = data.frame(format(dc_single_Dates),dc_single[c("Tag.Name","Full.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Quality.Run")])
-names(dc_single_data) = c("Date","Tag","TagName","Station","Chip","Status","Clean","Seq","Mean.OC","sigma.OC","Mean.DT","Quality.Run")
+dc_single_data = data.frame(format(dc_single_Dates),dc_single[c("Tag.Name","Full.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Quality.Run","Dwell.time.std")])
+names(dc_single_data) = c("Date","Tag","TagName","Station","Chip","Status","Clean","Seq","Mean.OC","sigma.OC","Mean.DT","Quality.Run","sigma.DT")
 
 
 dc_background_Dates = as.Date(as.character(dc_background$Date), "%y%m%d")

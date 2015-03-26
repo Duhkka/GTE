@@ -1,4 +1,3 @@
-#library(RMySQL)
 library(shiny)
 
 shinyServer(function(input, output,session) {
@@ -116,16 +115,31 @@ shinyServer(function(input, output,session) {
   output$exTagDC <- renderPlot({ 
     TagDC=reactive({
     t2ids = dc_single_data$Tag==input$dctagname
+    
     qids = dc_single$Quality.Run == "Yes"
+    
     qt2dt  = dc_single_data[,c("Mean.DT")][t2ids][qids]
     DT = data.frame(na.omit(qt2dt[qt2dt>0]))
     names(DT)=c("DT")
-    qt2oc  = dc_single_data[,c("Mean.OC")][t2ids][qids]
+    
+    qt2oc  = dc_single_data[,c("Mean.OC")][t2ids][qids]   
     OC = data.frame(na.omit(qt2oc[qt2oc>0 ]))
     names(OC)=c("OC")
-    p1 = ggplot(OC, aes(x='',y=OC)) + geom_boxplot()
-    p2 = ggplot(DT, aes(x='',y=DT)) + geom_boxplot()
-    multiplot(p1,p2,  cols=2) 
+    
+    qt2dtsig  = dc_single_data[,c("sigma.DT")][t2ids][qids]
+    DTsig = data.frame(na.omit(qt2dtsig[qt2dtsig>0]))
+    names(DTsig)=c("sigma_DT")
+    
+    qt2ocsig  = dc_single_data[,c("sigma.OC")][t2ids][qids]   
+    OCsig = data.frame(na.omit(qt2ocsig[qt2ocsig>0 ]))
+    names(OCsig)=c("sigma_OC")
+    
+    p1 = ggplot(OC, aes(x='',y=OC)) + geom_boxplot() + ggtitle("OC for quality runs") #+ ylim(0.1, .3)   
+    p2 = ggplot(DT, aes(x='',y=DT)) + geom_boxplot() + ggtitle("DT for quality runs") #+ ylim(0.3, 1.0) 
+    p3 = ggplot(OCsig, aes(x='',y=sigma_OC)) + geom_boxplot() + ggtitle("Sigma OC for quality runs")
+    p4 = ggplot(DTsig, aes(x='',y=sigma_DT)) + geom_boxplot() + ggtitle("Sigma DT for quality runs")
+    multiplot(p1,p2,p3,p4,  cols=2) 
+
     })
      TagDC() })
 

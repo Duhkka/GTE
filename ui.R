@@ -37,13 +37,13 @@ shinyUI(fluidPage(
         navbarMenu("EXPLORE",
                    tabPanel("By Tag (DC)",
                    sidebarLayout(position="right",
-                     sidebarPanel(
+                     sidebarPanel(width=3,
                        selectInput("dctagname", "Select Tag:",choices=dc_single_tags)
                      ),
                         mainPanel(plotOutput("exTagDC")))),
                    tabPanel("By Tag (AC)",
                    sidebarLayout(position="right",
-                                 sidebarPanel(
+                                 sidebarPanel(width=3,
                                    selectInput("actagname", "Select Tag:",choices=ac_single_tags)
                                  ),
                                  mainPanel(plotOutput("exTagAC"))))
