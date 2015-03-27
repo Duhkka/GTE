@@ -9,9 +9,23 @@ shinyUI(fluidPage(
              header = "", footer = "",theme =  shinytheme("cerulean"),
               #themes: cerulean,cosmo,flatly,journal,readable,spacelab,united  
         tabPanel("OVERVIEW",     
-        tabsetPanel(tabPanel(width = "100%",height="100%","AC Runs", plotOutput("ovacrunPlot")),
+        tabsetPanel(tabPanel(width = "100%",height="100%","AC Runs",                      
+                             verticalLayout(
+                              wellPanel(width = "60%",
+                                        fluidRow( 
+                                          column(4,dateRangeInput('ac_dateRange',label = 'Select range of dates:',start = ac_earliest, end = ac_latest))
+                                        )
+                              )
+                            ), plotOutput("ovacrunPlot")),
                     tabPanel("AC Summary", verbatimTextOutput("ovacSummary")),
-                    tabPanel("DC Runs", plotOutput("ovdcPlot")),
+                    tabPanel("DC Runs",     
+                      verticalLayout(
+                        wellPanel(width = "60%",
+                                  fluidRow( 
+                                    column(4,dateRangeInput('dc_dateRange',label = 'Select range of dates:',start = dc_earliest, end = dc_latest))
+                                  )
+                        )
+                      ),plotOutput("ovdcPlot")),
                     tabPanel("DC Summary", verbatimTextOutput("ovdcSummary"))
                )),
         

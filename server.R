@@ -1,16 +1,51 @@
 library(shiny)
+library(ggplot2)
 
 shinyServer(function(input, output,session) {
-    
+  output$ovdcPlot <- renderPlot({
+    DCTags=reactive({
+      input$dtag
+      start_date = as.numeric(input$dc_dateRange[1])
+      end_date = as.numeric(input$dc_dateRange[2])
+      ids = dc_single_Dates>=start_date & dc_single_Dates <=end_date
+      qids = dc_single$Quality.Run == "Yes"
+      qr = table(dc_single_data[,c("Tag")][ids][qids])
+      #    dr = table(sdata[,c("Tag")][ids])
+      #    qrd = qr[ids]
+      qr[order(-qr),drop=TRUE]
+    })
+    if (sum(DCTags()) > 0)
+    {
+      
+      barplot(t(
+        as.matrix(DCTags())), 
+        beside=TRUE, 
+        main=paste("Genia Tags with Quality Runs: ", sum(DCTags())," (from ",input$dc_dateRange[1] ," to ", input$dc_dateRange[2], ")"),
+        ylab="Num Quality Runs",xlab="",las=2)
+      
+    }
+  })
+  
   output$ovacrunPlot <- renderPlot({ 
     ACTags=reactive({
-#       start_date = as.numeric(input$dateRange[1])
-#       end_date = as.numeric(input$dateRange[2])
-#       ids = sDates>=start_date & sDates <=end_date
-      tw = summary(as.factor(ac_single_data$tags))
-      tw[order(-tw),drop=TRUE]
+      start_date = as.numeric(input$ac_dateRange[1])
+      end_date = as.numeric(input$ac_dateRange[2])
+      ids = ac_single_Dates>=start_date & ac_single_Dates <=end_date
+      #tw = summary(as.factor(ac_single_data$tags))
+      #tw[order(-tw),drop=TRUE]
+      qr = table(ac_single_data[,c("tags")][ids])
+      #    dr = table(sdata[,c("Tag")][ids])
+      #    qrd = qr[ids]
+      qr[order(-qr),drop=TRUE]
+      
     })
-    barplot(t(as.matrix(ACTags())),las=2)  })
+    barplot(t(
+      as.matrix(ACTags())), 
+      beside=TRUE, 
+      main=paste("Genia AC Tags: ", sum(ACTags())," (from ",input$dc_dateRange[1] ," to ", input$dc_dateRange[2], ")"),
+      ylab="Num Quality Runs",xlab="",las=2)
+  })
+#    barplot(t(as.matrix(ACTags())),las=2)  })
 
   # Generate a summary of the data
   output$ovacSummary <- renderPrint({

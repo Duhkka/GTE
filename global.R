@@ -12,12 +12,15 @@ dc_cy_colnames          = names(dc_cy)
 dc_competition_colnames = names(dc_competition)
 
 dc_single_Dates         = as.Date(as.character(dc_single$Date), "%y%m%d")
-dc_single_date_list     = structure(dc_single_Dates, Class="Date")
-dc_single_earliest      = min(dc_single_date_list, na.rm=TRUE)
-dc_single_latest        = max(dc_single_date_list, na.rm=TRUE)
+dc_single_dc_date_list     = structure(dc_single_Dates, Class="Date")
+dc_single_earliest      = min(dc_single_dc_date_list, na.rm=TRUE)
+dc_single_latest        = max(dc_single_dc_date_list, na.rm=TRUE)
 dc_single_tags          = dc_single[!duplicated(dc_single$Tag.Name),c("Tag.Name")]
 dc_single_data = data.frame(format(dc_single_Dates),dc_single[c("Tag.Name","Full.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Quality.Run","Dwell.time.std")])
 names(dc_single_data) = c("Date","Tag","TagName","Station","Chip","Status","Clean","Seq","Mean.OC","sigma.OC","Mean.DT","Quality.Run","sigma.DT")
+dc_date_list = structure(dc_single_Dates,Class="Date")
+dc_earliest = min(dc_date_list,na.rm=TRUE)
+dc_latest   = max(dc_date_list,na.rm=TRUE)
 
 
 dc_background_Dates = as.Date(as.character(dc_background$Date), "%y%m%d")
@@ -37,17 +40,20 @@ ac_background_colnames  = names(ac_background)
 
 
 ac_single_Dates         = as.Date(as.character(ac_single$expDate),"%y%m%d")
-ac_single_date_list     = structure(ac_single_Dates,Class="Date")
-ac_single_earliest      = min(ac_single_date_list,na.rm=TRUE)
-ac_single_latest        = max(ac_single_date_list,na.rm=TRUE)
+ac_single_dc_date_list     = structure(ac_single_Dates,Class="Date")
+ac_single_earliest      = min(ac_single_dc_date_list,na.rm=TRUE)
+ac_single_latest        = max(ac_single_dc_date_list,na.rm=TRUE)
 ac_single_tags          = ac_single[!duplicated(ac_single$tags),c("tags")]
 ac_single_data          = data.frame(format(ac_single_Dates),ac_single[c("tags","stationID","chipNum","Inactive.Cells","Single.Pore.Cells","Inactive.Cell.Reps","Active.Reps","Single.Pore.Reps")])
-#names(ac_single_data)   = c("Date","Tag","Station","Chip","IC","AR","SPR","ICR","SPC")
+ac_dc_date_list = structure(ac_single_Dates,Class="Date")
+ac_earliest = min(ac_dc_date_list,na.rm=TRUE)
+ac_latest   = max(ac_dc_date_list,na.rm=TRUE)
+
 
 ac_background_Dates     = as.Date(as.character(ac_background$expDate), "%y%m%d")
-ac_background_date_list = structure(ac_background_Dates, Class="Date")
-ac_background_earliest  = min(ac_background_date_list, na.rm=TRUE)
-ac_background_latest    = max(ac_background_date_list, na.rm=TRUE)
+ac_background_dc_date_list = structure(ac_background_Dates, Class="Date")
+ac_background_earliest  = min(ac_background_dc_date_list, na.rm=TRUE)
+ac_background_latest    = max(ac_background_dc_date_list, na.rm=TRUE)
 ac_background_tags      = ac_background[!duplicated(ac_background$tags),c("tags")]
 ac_background_data      = data.frame(format(ac_background_Dates),ac_background[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
 
@@ -88,9 +94,9 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 # HemoDates = as.Date(as.character(ac_single$Hemo.Complex.Prep),"%y%m%d")
-# date_list = structure(sDates,Class="Date")
-# earliest = min(date_list,na.rm=TRUE)
-# latest   = max(date_list,na.rm=TRUE)
+# dc_date_list = structure(sDates,Class="Date")
+# earliest = min(dc_date_list,na.rm=TRUE)
+# latest   = max(dc_date_list,na.rm=TRUE)
 # sdata = data.frame(format(sDates),ac_single[c("Tag.Name","Full.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Quality.Run")])
 # names(sdata) = c("Date","Tag","TagName","Station","Chip","Status","Clean","Seq","Mean.OC","sigma.OC","Mean.DT","Quality.Run")
 # 
