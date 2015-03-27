@@ -9,9 +9,11 @@ shinyUI(fluidPage(
              header = "", footer = "",theme =  shinytheme("cerulean"),
               #themes: cerulean,cosmo,flatly,journal,readable,spacelab,united  
         tabPanel("OVERVIEW",     
-        tabsetPanel(tabPanel(width = "100%",height="100%","Total Runs", plotOutput("ovslrunPlot")),
-               tabPanel("Active Cells", plotOutput("ovslcellPlot")),
-               tabPanel("Summary", verbatimTextOutput("ovslSummary")))),
+        tabsetPanel(tabPanel(width = "100%",height="100%","AC Runs", plotOutput("ovacrunPlot")),
+                    tabPanel("AC Summary", verbatimTextOutput("ovacSummary")),
+                    tabPanel("DC Runs", plotOutput("ovdcPlot")),
+                    tabPanel("DC Summary", verbatimTextOutput("ovdcSummary"))
+               )),
         
         navbarMenu("AC",
                    tabPanel("Single Tag", 
