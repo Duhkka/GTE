@@ -50,7 +50,7 @@ shinyServer(function(input, output,session) {
   })
 
   # Generate a summary of ac data
-  output$ovacSummary <- renderPrint({
+  output$ovacSummary <- renderDataTable({
 #     ACTags=reactive({
 #       #       start_date = as.numeric(input$dateRange[1])
 #       #       end_date = as.numeric(input$dateRange[2])
