@@ -7,7 +7,7 @@ shinyServer(function(input, output,session) {
 #       start_date = as.numeric(input$dateRange[1])
 #       end_date = as.numeric(input$dateRange[2])
 #       ids = sDates>=start_date & sDates <=end_date
-      tw = summary(as.factor(ac_single_data$tags))
+      tw = summary(as.factor(ac_single_data$Tag))
       tw[order(-tw),drop=TRUE]
     })
     barplot(t(as.matrix(ACTags())),las=2)  })
@@ -18,7 +18,7 @@ shinyServer(function(input, output,session) {
       #       start_date = as.numeric(input$dateRange[1])
       #       end_date = as.numeric(input$dateRange[2])
       #       ids = sDates>=start_date & sDates <=end_date
-      tw = summary(as.factor(ac_single_data$tags))
+      tw = summary(as.factor(ac_single_data$Tag))
       tw[order(-tw),drop=TRUE]
     })
     data.frame(ACTags())
@@ -43,7 +43,7 @@ shinyServer(function(input, output,session) {
 #      subset(ac_single_data, ids)
        ac_single_data
     })
-    data.frame(osdata())  
+    data.frame(osdata()) 
   })
 
   output$dcsltable <- renderDataTable({
@@ -142,5 +142,39 @@ shinyServer(function(input, output,session) {
 
     })
      TagDC() })
+
+output$exTagAC <- renderPlot({ 
+  TagAC=reactive({
+    t2ids = ac_single_data$tag==input$actagname
+
+    qt2dt  = ac_single_data[,c("Inactive.Cells")][t2ids]
+    IC = data.frame(na.omit(qt2dt[qt2dt>0]))
+    names(IC)=c("IC")
+    
+    qt2oc  = ac_single_data[,c("Single.Pore.Cells")][t2ids]  
+    SPC = data.frame(na.omit(qt2oc[qt2oc>0 ]))
+    names(SPC)=c("SPC")
+    
+    qt2dtsig  = ac_single_data[,c("Inactive.Cell.Reps")][t2ids]
+    ICR = data.frame(na.omit(qt2dtsig[qt2dtsig>0]))
+    names(ICR)=c("ICR")
+    
+    qt2ocsig  = ac_single_data[,c("Active.Reps")][t2ids]
+    AR = data.frame(na.omit(qt2ocsig[qt2ocsig>0 ]))
+    names(AR)=c("AR")
+    
+    qt2ocsig  = ac_single_data[,c("Single.Pore.Reps")][t2ids]
+    SPR = data.frame(na.omit(qt2ocsig[qt2ocsig>0 ]))
+    names(SPR)=c("SPR")
+    
+    p1 = ggplot(IC, aes(x='',y=IC)) + geom_boxplot() + ggtitle("# Inactive cells") #+ ylim(0.1, .3)   
+    p2 = ggplot(SPC, aes(x='',y=SPC)) + geom_boxplot() + ggtitle("# Single Pore Cells") #+ ylim(0.3, 1.0) 
+    p3 = ggplot(ICR, aes(x='',y=ICR)) + geom_boxplot() + ggtitle("Inactive Cell Reps")
+    p4 = ggplot(AR, aes(x='',y=AR)) + geom_boxplot() + ggtitle("Active Reps")
+    p5 = ggplot(SPR, aes(x='',y=SPR)) + geom_boxplot() + ggtitle("Single Pore Reps")
+    multiplot(p1,p2,p3,p4,  cols=2) 
+    
+  })
+  TagAC() })
 
 })  

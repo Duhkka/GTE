@@ -41,7 +41,8 @@ ac_single_date_list     = structure(ac_single_Dates,Class="Date")
 ac_single_earliest      = min(ac_single_date_list,na.rm=TRUE)
 ac_single_latest        = max(ac_single_date_list,na.rm=TRUE)
 ac_single_tags          = ac_single[!duplicated(ac_single$tags),c("tags")]
-ac_single_data          = data.frame(format(ac_single_Dates),ac_single[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
+ac_single_data          = data.frame(format(ac_single_Dates),ac_single[c("tags","stationID","chipNum","Inactive.Cells","Single.Pore.Cells","Inactive.Cell.Reps","Active.Reps","Single.Pore.Reps")])
+names(ac_single_data)   = c("Date","Tag","Station","Chip","IC","AR","SPR","ICR","SPC")
 
 ac_background_Dates     = as.Date(as.character(ac_background$expDate), "%y%m%d")
 ac_background_date_list = structure(ac_background_Dates, Class="Date")
@@ -49,6 +50,7 @@ ac_background_earliest  = min(ac_background_date_list, na.rm=TRUE)
 ac_background_latest    = max(ac_background_date_list, na.rm=TRUE)
 ac_background_tags      = ac_background[!duplicated(ac_background$tags),c("tags")]
 ac_background_data      = data.frame(format(ac_background_Dates),ac_background[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
+
 
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   library(grid)

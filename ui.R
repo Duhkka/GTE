@@ -9,7 +9,7 @@ shinyUI(fluidPage(
              header = "", footer = "",theme =  shinytheme("cerulean"),
               #themes: cerulean,cosmo,flatly,journal,readable,spacelab,united  
         tabPanel("OVERVIEW",     
-        tabsetPanel(tabPanel("Recent Runs", plotOutput("ovslrunPlot")),
+        tabsetPanel(tabPanel(width = "100%",height="100%","Total Runs", plotOutput("ovslrunPlot")),
                tabPanel("Active Cells", plotOutput("ovslcellPlot")),
                tabPanel("Summary", verbatimTextOutput("ovslSummary")))),
         
@@ -40,13 +40,13 @@ shinyUI(fluidPage(
                      sidebarPanel(width=3,
                        selectInput("dctagname", "Select Tag:",choices=dc_single_tags)
                      ),
-                        mainPanel(plotOutput("exTagDC")))),
+                    mainPanel(height="100%",plotOutput("exTagDC")))),
                    tabPanel("By Tag (AC)",
                    sidebarLayout(position="right",
                                  sidebarPanel(width=3,
                                    selectInput("actagname", "Select Tag:",choices=ac_single_tags)
                                  ),
-                                 mainPanel(plotOutput("exTagAC"))))
+                                 mainPanel(height="100%",plotOutput("exTagAC"))))
                    
         )
         )))
