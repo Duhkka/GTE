@@ -62,25 +62,25 @@ shinyServer(function(input, output,session) {
 #     {
 #     data.frame(ACTags())
 #     }
-    tags_data_frame
+    ac_tags_data_frame
   })
 
 # Generate a summary of dc data
-output$ovdcSummary <- renderPrint({
-  DCTags=reactive({
-  input$dtag
-  start_date = as.numeric(input$dc_dateRange[1])
-  end_date = as.numeric(input$dc_dateRange[2])
-  ids = dc_single_Dates>=start_date & dc_single_Dates <=end_date
-  qids = dc_single$Quality.Run == "Yes"
-  qr = table(dc_single_data[,c("Tag")][ids][qids])
-  qr[order(-qr),drop=TRUE]
+output$ovdcSummary <- renderDataTable({
+#   DCTags=reactive({
+#   input$dtag
+#   start_date = as.numeric(input$dc_dateRange[1])
+#   end_date = as.numeric(input$dc_dateRange[2])
+#   ids = dc_single_Dates>=start_date & dc_single_Dates <=end_date
+#   qids = dc_single$Quality.Run == "Yes"
+#   qr = table(dc_single_data[,c("Tag")][ids][qids])
+#   qr[order(-qr),drop=TRUE]
     
-  })
-  if (sum(DCTags()) > 0)
-  {
-  data.frame(DCTags())
-  }
+#   })
+#   if (sum(DCTags()) > 0)
+#   {
+  dc_tags_data_frame
+#   }
 })
   output$acbacktable <- renderDataTable({
     oxdata=reactive({

@@ -107,8 +107,8 @@ for(name in unique(ac_single$tags))
   ACR <- c(ACR, sum(ac_single[ac_single$tags == name, c("Active.Reps")]))
 }
 tags_data = cbind( TAG, SPC, SPR, IC, ICR, AC, ACR)
-tags_data_frame <- data.frame(tags_data)
-names(tags_data_frame) = c("Tag","Single Pore Cells","Single Pore Reps","Inactive Cells","Inactive Cell Reps","Active Cells","Active Reps")
+ac_tags_data_frame <- data.frame(tags_data)
+names(ac_tags_data_frame) = c("Tag","Single Pore Cells","Single Pore Reps","Inactive Cells","Inactive Cell Reps","Active Cells","Active Reps")
 #tags_data_frame[,-1] <-round(tags_data_frame[,-1],0)
 
 ac_background_Dates     = as.Date(as.character(ac_background$expDate), "%y%m%d")
