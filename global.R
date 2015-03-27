@@ -23,7 +23,42 @@ dc_earliest = min(dc_date_list,na.rm=TRUE)
 dc_latest   = max(dc_date_list,na.rm=TRUE)
 dc_runs=dim(dc_single_data )
 dc_total_runs=dc_runs[1]
+
+dc_single_quality_runs = dc_single[dc_single$Quality.Run == "Yes", c("Tag.Name","Full.Name","Num.cells.capturing","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation")]
   
+tag_name <- list()
+full_tag_name <- list()
+mean_num_cell_cap <- list()
+mean_num_cell_qual_seq <- list()
+mean_capturing_oc <- list()
+mean_capturing_sd <- list()
+
+for(name in unique(dc_single_quality_runs$Tag.Name))
+{
+  tag_name <- c(tag_name, name)
+  full_tag_name <- c(full_tag_name, dc_single_quality_runs[dc_single_quality_runs$Tag.Name == name, c("Full.Name")][1])
+  
+  num_cell_cap <- dc_single_quality_runs[dc_single_quality_runs$Tag.Name == name, c("Num.cells.capturing")]
+  cap_count = sum(num_cell_cap)/length(num_cell_cap)
+  mean_num_cell_cap <- c(mean_num_cell_cap, cap_count)
+  
+  num_cell_qual_seq <- dc_single_quality_runs[dc_single_quality_runs$Tag.Name == name, c("Num.cells.quality.sequencing")]
+  qual_seq_count = sum(num_cell_qual_seq)/length(num_cell_qual_seq)
+  mean_num_cell_qual_seq <- c(mean_num_cell_qual_seq, qual_seq_count)
+  
+  mean_cap_oc <- dc_single_quality_runs[dc_single_quality_runs$Tag.Name == name, c("Mean.capturing.level.OC")]
+  mean_cap_oc_count = sum(mean_cap_oc)/length(mean_cap_oc)
+  mean_capturing_oc <- c(mean_capturing_oc, mean_cap_oc_count)
+  
+  cap_lev_sd <- dc_single_quality_runs[dc_single_quality_runs$Tag.Name == name, c("Capturing.Level.Standard.Deviation")]
+  cap_lev_sd_count = sum(as.numeric(cap_lev_sd))/length(cap_lev_sd)
+  mean_capturing_sd <- c(mean_capturing_sd, cap_lev_sd_count)  
+}
+dc_tags_data = cbind( tag_name, full_tag_name, as.numeric(mean_num_cell_cap), as.numeric(mean_num_cell_qual_seq), as.numeric(mean_capturing_oc), as.numeric(mean_capturing_sd))
+dc_tags_data_frame <- data.frame(dc_tags_data)
+names(dc_tags_data_frame) = c("Tag","Full Name","Mean Cells Capturing","Mean Quality Sequencing Cells","Mean Capturing OC","Mean OC StDev")
+#dc_tags_data_frame$mean_num_cell_cap <-round(dc_tags_data_frame$mean_num_cell_cap,0)
+
 dc_background_Dates = as.Date(as.character(dc_background$Date), "%y%m%d")
 dc_background_data = data.frame(format(dc_background_Dates),dc_background[c("Tag.Name","Station","ChipNum","Status")])
 
@@ -70,10 +105,11 @@ for(name in unique(ac_single$tags))
   ICR <- c(ICR, sum(ac_single[ac_single$tags == name, c("Inactive.Cell.Reps")]))
   AC <- c(AC, sum(ac_single[ac_single$tags == name, c("Active.Cells")]))
   ACR <- c(ACR, sum(ac_single[ac_single$tags == name, c("Active.Reps")]))
-  #  rbind(tags_df, c(name, SPC, SPR, IC, ICR, AC, ACR))
 }
 tags_data = cbind( TAG, SPC, SPR, IC, ICR, AC, ACR)
 tags_data_frame <- data.frame(tags_data)
+names(tags_data_frame) = c("Tag","Single Pore Cells","Single Pore Reps","Inactive Cells","Inactive Cell Reps","Active Cells","Active Reps")
+#tags_data_frame[,-1] <-round(tags_data_frame[,-1],0)
 
 ac_background_Dates     = as.Date(as.character(ac_background$expDate), "%y%m%d")
 ac_background_dc_date_list = structure(ac_background_Dates, Class="Date")

@@ -17,7 +17,7 @@ shinyUI(fluidPage(
                                         )
                               )
                             ), plotOutput("ovacrunPlot")),
-                    tabPanel("AC Summary", verbatimTextOutput("ovacSummary")),
+                    tabPanel("AC Summary", dataTableOutput("ovacSummary")),
                     tabPanel("DC Runs",     
                       verticalLayout(
                         wellPanel(width = "60%",
@@ -26,7 +26,7 @@ shinyUI(fluidPage(
                                   )
                         )
                       ),plotOutput("ovdcPlot")),
-                    tabPanel("DC Summary", verbatimTextOutput("ovdcSummary"))
+                    tabPanel("DC Summary", dataTableOutput("ovdcSummary"))
                )),
         
         navbarMenu("AC",

@@ -50,38 +50,34 @@ shinyServer(function(input, output,session) {
   })
 
   # Generate a summary of ac data
-  output$ovacSummary <- renderPrint({
-#     ACTags=reactive({
-#       #       start_date = as.numeric(input$dateRange[1])
-#       #       end_date = as.numeric(input$dateRange[2])
-#       #       ids = sDates>=start_date & sDates <=end_date
-#       tw = summary(as.factor(ac_single_data$tags))
-#       tw[order(-tw),drop=TRUE]
-#     })
-#     if (sum(ACTags()) > 0)
-#     {
-#     data.frame(ACTags())
-#     }
-    tags_data_frame
-  })
-
-# Generate a summary of dc data
-output$ovdcSummary <- renderPrint({
-  DCTags=reactive({
-  input$dtag
-  start_date = as.numeric(input$dc_dateRange[1])
-  end_date = as.numeric(input$dc_dateRange[2])
-  ids = dc_single_Dates>=start_date & dc_single_Dates <=end_date
-  qids = dc_single$Quality.Run == "Yes"
-  qr = table(dc_single_data[,c("Tag")][ids][qids])
-  qr[order(-qr),drop=TRUE]
+  output$ovacSummary <- renderDataTable({
+      osdata=reactive({
+      #       start_date = as.numeric(input$dateRange[1])
+      #       end_date = as.numeric(input$dateRange[2])
+      #       ids = sDates>=start_date & sDates <=end_date
+      #       subset(sdata, ids)
+        tags_data_frame
+      })
+      data.frame(osdata())  
+    },
+    options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = TRUE)
     
-  })
-  if (sum(DCTags()) > 0)
-  {
-  data.frame(DCTags())
-  }
-})
+  )
+
+  # Generate a summary of dc data
+  output$ovdcSummary <- renderDataTable({
+        osdata=reactive({
+          #       start_date = as.numeric(input$dateRange[1])
+          #       end_date = as.numeric(input$dateRange[2])
+          #       ids = sDates>=start_date & sDates <=end_date
+          #       subset(sdata, ids)
+          dc_tags_data_frame
+        })
+        data.frame(osdata())  
+      },
+      options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = TRUE)
+  )
+
   output$acbacktable <- renderDataTable({
     oxdata=reactive({
       #      start_date = as.numeric(input$dateRange[1])
