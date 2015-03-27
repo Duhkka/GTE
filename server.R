@@ -51,17 +51,18 @@ shinyServer(function(input, output,session) {
 
   # Generate a summary of ac data
   output$ovacSummary <- renderPrint({
-    ACTags=reactive({
-      #       start_date = as.numeric(input$dateRange[1])
-      #       end_date = as.numeric(input$dateRange[2])
-      #       ids = sDates>=start_date & sDates <=end_date
-      tw = summary(as.factor(ac_single_data$tags))
-      tw[order(-tw),drop=TRUE]
-    })
-    if (sum(ACTags()) > 0)
-    {
-    data.frame(ACTags())
-    }
+#     ACTags=reactive({
+#       #       start_date = as.numeric(input$dateRange[1])
+#       #       end_date = as.numeric(input$dateRange[2])
+#       #       ids = sDates>=start_date & sDates <=end_date
+#       tw = summary(as.factor(ac_single_data$tags))
+#       tw[order(-tw),drop=TRUE]
+#     })
+#     if (sum(ACTags()) > 0)
+#     {
+#     data.frame(ACTags())
+#     }
+    tags_data_frame
   })
 
 # Generate a summary of dc data
