@@ -21,8 +21,9 @@ names(dc_single_data) = c("Date","Tag","TagName","Station","Chip","Status","Clea
 dc_date_list = structure(dc_single_Dates,Class="Date")
 dc_earliest = min(dc_date_list,na.rm=TRUE)
 dc_latest   = max(dc_date_list,na.rm=TRUE)
-
-
+dc_runs=dim(dc_single_data )
+dc_total_runs=dc_runs[1]
+  
 dc_background_Dates = as.Date(as.character(dc_background$Date), "%y%m%d")
 dc_background_data = data.frame(format(dc_background_Dates),dc_background[c("Tag.Name","Station","ChipNum","Status")])
 
@@ -48,7 +49,8 @@ ac_single_data          = data.frame(format(ac_single_Dates),ac_single[c("tags",
 ac_dc_date_list = structure(ac_single_Dates,Class="Date")
 ac_earliest = min(ac_dc_date_list,na.rm=TRUE)
 ac_latest   = max(ac_dc_date_list,na.rm=TRUE)
-
+ac_runs=dim(ac_single_data )
+ac_total_runs=ac_runs[1]
 
 ac_background_Dates     = as.Date(as.character(ac_background$expDate), "%y%m%d")
 ac_background_dc_date_list = structure(ac_background_Dates, Class="Date")

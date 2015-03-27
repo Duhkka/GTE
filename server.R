@@ -20,7 +20,7 @@ shinyServer(function(input, output,session) {
       barplot(t(
         as.matrix(DCTags())), 
         beside=TRUE, 
-        main=paste("Genia Tags with Quality Runs: ", sum(DCTags())," (from ",input$dc_dateRange[1] ," to ", input$dc_dateRange[2], ")"),
+        main=paste("Genia Tags in Quality DC Runs: ", sum(DCTags()) , "(from ",input$dc_dateRange[1] ," to ", input$dc_dateRange[2], ")"),
         ylab="Num Quality Runs",xlab="",las=2)
       
     }
@@ -39,15 +39,17 @@ shinyServer(function(input, output,session) {
       qr[order(-qr),drop=TRUE]
       
     })
+    if (sum(ACTags()) > 0)
+    {
     barplot(t(
       as.matrix(ACTags())), 
       beside=TRUE, 
-      main=paste("Genia AC Tags: ", sum(ACTags())," (from ",input$dc_dateRange[1] ," to ", input$dc_dateRange[2], ")"),
-      ylab="Num Quality Runs",xlab="",las=2)
+      main=paste("Genia Tags AC Runs: ", sum(ACTags())," ( from ",input$ac_dateRange[1] ," to ", input$ac_dateRange[2], " )"),
+      ylab="Num of Runs",xlab="",las=2)
+    }
   })
-#    barplot(t(as.matrix(ACTags())),las=2)  })
 
-  # Generate a summary of the data
+  # Generate a summary of ac data
   output$ovacSummary <- renderPrint({
     ACTags=reactive({
       #       start_date = as.numeric(input$dateRange[1])
@@ -56,9 +58,29 @@ shinyServer(function(input, output,session) {
       tw = summary(as.factor(ac_single_data$tags))
       tw[order(-tw),drop=TRUE]
     })
+    if (sum(ACTags()) > 0)
+    {
     data.frame(ACTags())
+    }
   })
 
+# Generate a summary of dc data
+output$ovdcSummary <- renderPrint({
+  DCTags=reactive({
+  input$dtag
+  start_date = as.numeric(input$dc_dateRange[1])
+  end_date = as.numeric(input$dc_dateRange[2])
+  ids = dc_single_Dates>=start_date & dc_single_Dates <=end_date
+  qids = dc_single$Quality.Run == "Yes"
+  qr = table(dc_single_data[,c("Tag")][ids][qids])
+  qr[order(-qr),drop=TRUE]
+    
+  })
+  if (sum(DCTags()) > 0)
+  {
+  data.frame(DCTags())
+  }
+})
   output$acbacktable <- renderDataTable({
     oxdata=reactive({
       #      start_date = as.numeric(input$dateRange[1])
@@ -132,20 +154,6 @@ shinyServer(function(input, output,session) {
   },
   options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE)
   )
-
-  output$dcslsummary <- renderPrint({
-    GTags=reactive({
-      input$gtag
-#       start_date = as.numeric(input$dateRange[1])
-#       end_date = as.numeric(input$dateRange[2])
-#       ids = dc_single_Dates>=start_date & dc_single_Dates<=end_date
-      qids = dc_single$Quality.Run == "Yes"
-      qr = table(dc_single_data[,c("TagName")][qids])#[ids])
-      qr[order(-qr),drop=TRUE]
-      
-    })
-    data.frame(GTags())
-  })
 
   output$exTagDC <- renderPlot({ 
     TagDC=reactive({
