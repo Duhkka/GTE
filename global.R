@@ -54,10 +54,11 @@ for(name in unique(dc_single_quality_runs$Tag.Name))
   cap_lev_sd_count = sum(as.numeric(cap_lev_sd))/length(cap_lev_sd)
   mean_capturing_sd <- c(mean_capturing_sd, cap_lev_sd_count)  
 }
-dc_tags_data = cbind( tag_name, full_tag_name, as.numeric(mean_num_cell_cap), as.numeric(mean_num_cell_qual_seq), as.numeric(mean_capturing_oc), as.numeric(mean_capturing_sd))
+dc_tags_data = cbind( tag_name, full_tag_name, round(as.numeric(mean_num_cell_cap,0)), round(as.numeric(mean_num_cell_qual_seq,0)), round(as.numeric(mean_capturing_oc,2)), round(as.numeric(mean_capturing_sd),3))
 dc_tags_data_frame <- data.frame(dc_tags_data)
 names(dc_tags_data_frame) = c("Tag","Full Name","Mean Cells Capturing","Mean Quality Sequencing Cells","Mean Capturing OC","Mean OC StDev")
 #dc_tags_data_frame$mean_num_cell_cap <-round(dc_tags_data_frame$mean_num_cell_cap,0)
+dc_tags_data_frame = as.data.frame(lapply(dc_tags_data_frame,unlist))
 
 dc_background_Dates = as.Date(as.character(dc_background$Date), "%y%m%d")
 dc_background_data = data.frame(format(dc_background_Dates),dc_background[c("Tag.Name","Station","ChipNum","Status")])
@@ -110,6 +111,8 @@ tags_data = cbind( TAG, SPC, SPR, IC, ICR, AC, ACR)
 ac_tags_data_frame <- data.frame(tags_data)
 names(ac_tags_data_frame) = c("Tag","Single Pore Cells","Single Pore Reps","Inactive Cells","Inactive Cell Reps","Active Cells","Active Reps")
 #tags_data_frame[,-1] <-round(tags_data_frame[,-1],0)
+ac_tags_data_frame = as.data.frame(lapply(ac_tags_data_frame,unlist))
+
 
 ac_background_Dates     = as.Date(as.character(ac_background$expDate), "%y%m%d")
 ac_background_dc_date_list = structure(ac_background_Dates, Class="Date")
