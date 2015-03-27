@@ -4,7 +4,7 @@ library(shinythemes)
 
 shinyUI(fluidPage(
   list(tags$head(HTML('<link rel="icon", href="images.jpeg", type="image/jpeg" />'))),
-  div(header="",align="left",img(src="genia.png"),titlePanel(title="", windowTitle="Genia Tag Experiments")),  
+  div(header="",align="left",img(src="genia.png"),img(src="RocheSeq.png"),titlePanel(title="", windowTitle="Genia Tag Experiments")),  
   navbarPage(title ="TAG Experiments",collapsible = TRUE,inverse = FALSE,id = "NavTag",
              header = "", footer = "",theme =  shinytheme("cerulean"),
               #themes: cerulean,cosmo,flatly,journal,readable,spacelab,united  
