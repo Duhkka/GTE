@@ -109,7 +109,7 @@ observe({
   if(!is.null(input$request_data)){
     tag_note_mask <- ac_single
     tag_note_mask <- tag_note_mask[tag_note_mask[, "expDate"] == substr(gsub('-','',input$request_data[1]), 3, 8),]
-    print(tag_note_mask)
+    #print(tag_note_mask)
     tag_note_mask <- tag_note_mask[tag_note_mask[, "tags"] == input$request_data[2], ]    
     tag_note_mask <- tag_note_mask[tag_note_mask[, "stationID"] == input$request_data[3], ]  
     tag_note_mask <- tag_note_mask[tag_note_mask[, "chipNum"] == input$request_data[4], ]  
