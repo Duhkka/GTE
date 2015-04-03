@@ -102,7 +102,27 @@ output$ovdcSummary <- renderDataTable({
        ac_single_data
     })
     data.frame(osdata()) 
-  })
+  },
+options =  list(
+  fnRowCallback = I("function( nRow, qData, iDisplayIndex, iDisplayIndexFull )     {f_fnRowCallback( nRow, qData, iDisplayIndex, iDisplayIndexFull ) }")))
+observe({   
+  if(!is.null(input$request_data)){
+    tag_note_mask <- ac_single
+    tag_note_mask <- tag_note_mask[tag_note_mask[, "expDate"] == substr(gsub('-','',input$request_data[1]), 3, 8),]
+    print(tag_note_mask)
+    tag_note_mask <- tag_note_mask[tag_note_mask[, "tags"] == input$request_data[2], ]    
+    tag_note_mask <- tag_note_mask[tag_note_mask[, "stationID"] == input$request_data[3], ]  
+    tag_note_mask <- tag_note_mask[tag_note_mask[, "chipNum"] == input$request_data[4], ]  
+    if(length(tag_note_mask$Analysis.Notes) < 1)
+    {
+      session$sendCustomMessage(type = "showRequested_data", paste("No Notes For This Entry!"))
+    }
+    else
+    {
+      session$sendCustomMessage(type = "showRequested_data", paste(tag_note_mask$Analysis.Notes))
+    }
+  }
+})
 
   output$dcsltable <- renderDataTable({
     osdata=reactive({

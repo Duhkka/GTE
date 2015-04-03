@@ -64,6 +64,14 @@ shinyUI(fluidPage(
                                  ),
                                  mainPanel(height="100%",plotOutput("exTagAC"))))
                    
-        )
+        ),
+        tags$head(tags$script("var f_fnRowCallback = function( nRow, qData, iDisplayIndex,     iDisplayIndexFull ){
+                          $('td', nRow).click( function(){Shiny.onInputChange('request_data',     [qData])} );
+                              }                                        
+                              
+                              Shiny.addCustomMessageHandler('showRequested_data', function(x) { 
+                              
+                              alert(x)
+                              })"))
         )))
         
