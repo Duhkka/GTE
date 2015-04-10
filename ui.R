@@ -6,13 +6,14 @@ library(shinyBS)
 shinyUI(fluidPage(
 #   bsButton("moTrig", "Open Modal", style = "primary"),
 #   bsModal("moMod", "Example Modal", trigger="moTrig",
+#           verbatimTextOutput(noteText),
 #           tags$p(HTML(noteText)),
 #           tags$div(class = "row-fluid",
-#           tags$div(class = "span4 well control-panel",
-#                   sliderInput("moobs", "Number of observations:", min = 1, max = 1000, value = 500),
-#                   selectInput("modist", "Distribution", choices = c("Normal", "Lognormal", "Uniform", "Exponential")),
-#                   textInput("motitle", "Plot Title", "A Modal Plot")
-#           )
+#                    tags$div(class = "span4 well control-panel",
+#                             sliderInput("moobs", "Number of observations:", min = 1, max = 1000, value = 500),
+#                             selectInput("modist", "Distribution", choices = c("Normal", "Lognormal", "Uniform", "Exponential")),
+#                             textInput("motitle", "Plot Title", "A Modal Plot")
+#                    )
 #           )
 #   ),
   list(tags$head(HTML('<link rel="icon", href="images.jpeg", type="image/jpeg" />'))),
@@ -77,13 +78,14 @@ shinyUI(fluidPage(
                                  mainPanel(height="100%",plotOutput("exTagAC"))))
                    
         ),
+
         tags$head(tags$script("var f_fnRowCallback = function( nRow, qData, iDisplayIndex,     iDisplayIndexFull ){
-                          $('td', nRow).click( function(){Shiny.onInputChange('f_fnRowCallback',     [qData])} );
+                          $('td', nRow).click( function(){Shiny.onInputChange('request_data',     [qData])} );
                               }                                        
                               
-                              Shiny.addCustomMessageHandler('fnRowCallback', function(x) { 
+                              Shiny.addCustomMessageHandler('showRequested_data', function(x) { 
                               
-                              uiOutput(x)
+                              alert(x)
                               })"))
         )))
         
