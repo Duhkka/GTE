@@ -70,7 +70,7 @@ shinyServer(function(input, output,session) {
       fnRowCallback = I("function( nRow, qData, iDisplayIndex, iDisplayIndexFull )     {f_fnRowCallback( nRow, qData, iDisplayIndex, iDisplayIndexFull ) }")))
 
   observe({  
-    print(noteText)
+    #print(noteText)
     #toggleModal(session, "moMod", open)
     if(!is.null(input$request_data)){
       tag_note_mask <- ac_single
@@ -90,9 +90,9 @@ shinyServer(function(input, output,session) {
       }
       else
       {
-        print(length(tag_note_mask$Analysis.Notes))
+        #print(length(tag_note_mask$Analysis.Notes))
         noteText=tag_note_mask$Analysis.Notes
-        print(noteText)
+        #print(noteText)
         #toggleModal(session, "moMod", open)
         session$sendCustomMessage(type = "showRequested_data", paste(tag_note_mask$Analysis.Notes))
       }    

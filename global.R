@@ -26,8 +26,6 @@ dc_total_runs=dc_runs[1]
 
 dc_single_quality_runs = dc_single[dc_single$Quality.Run == "Yes", c("Tag.Name","Full.Name","Num.cells.capturing","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation")]
 
-noteText = "Hello"
-
 tag_name <- list()
 full_tag_name <- list()
 mean_num_cell_cap <- list()
