@@ -25,7 +25,9 @@ dc_runs=dim(dc_single_data )
 dc_total_runs=dc_runs[1]
 
 dc_single_quality_runs = dc_single[dc_single$Quality.Run == "Yes", c("Tag.Name","Full.Name","Num.cells.capturing","Num.cells.quality.sequencing","Mean.capturing.level.OC","Capturing.Level.Standard.Deviation")]
-  
+
+noteText = "Hello"
+
 tag_name <- list()
 full_tag_name <- list()
 mean_num_cell_cap <- list()
@@ -61,8 +63,8 @@ names(dc_tags_data_frame) = c("Tag","Full Name","Mean Cells Capturing","Mean Qua
 dc_tags_data_frame = as.data.frame(lapply(dc_tags_data_frame,unlist))
 
 dc_background_Dates = as.Date(as.character(dc_background$Date), "%y%m%d")
-dc_background_data = data.frame(format(dc_background_Dates),dc_background[c("Tag.Name","Station","ChipNum","Status")])
-
+dc_background_data = data.frame(format(dc_background_Dates),dc_background[c("Tag.Name","Station","ChipNum","Status","Num.cells.clean","Num.cells.quality.sequencing","Mean.capturing.level.Percent.OC.","Capturing.Level.Standard.Deviation","Mean.Dwell.time","Dwell.time.std")])
+names(dc_background_data) = c("Date","Tag","Station","ChipNum","Status", "Clean Cells", "Quality Cells", "Mean Cap Percent OC", "Capturing StdDev", "Mean Dwell Time", "Dwell Time StdDev")
 dc_cy_Dates = as.Date(as.character(dc_cy$Date),"%y%m%d")
 dc_cy_data = data.frame(format(dc_cy_Dates),dc_cy[c("Tag.Name","Station","ChipNum","Status")])
 
@@ -89,10 +91,8 @@ cap_pore_list[["Percent.Active.Pores"]] = ac_single$Active.Cells / ac_single$Sin
 
 rapply( cap_pore_list, f=function(x) ifelse(is.nan(x),0,x), how="replace" )
 
-#cap_pore_list[is.nan(cap_pore_list)] <- 0.0
 ac_single_data          = cbind(ac_single_data, cap_pore_list)
-#ac_single_data = data.frame(ac_single_data)
-
+names(ac_single_data)   = c("Date","Tag","Station","chipNum","Single Pores","Single Reps","Active Pores","Active Reps","Inactive Cells","Inactive Reps", "Percent Active Pores")
 
 
 ac_dc_date_list = structure(ac_single_Dates,Class="Date")
@@ -133,8 +133,8 @@ ac_background_dc_date_list = structure(ac_background_Dates, Class="Date")
 ac_background_earliest  = min(ac_background_dc_date_list, na.rm=TRUE)
 ac_background_latest    = max(ac_background_dc_date_list, na.rm=TRUE)
 ac_background_tags      = ac_background[!duplicated(ac_background$tags),c("tags")]
-ac_background_data      = data.frame(format(ac_background_Dates),ac_background[c("tags","stationID","chipNum","Inactive.Cells","Active.Reps","Single.Pore.Reps","Inactive.Cell.Reps","Single.Pore.Cells")])
-
+ac_background_data      = data.frame(format(ac_background_Dates),ac_background[c("tags","stationID","chipNum","Single.Pore.Cells","Single.Pore.Reps","Active.Cells","Active.Reps","Inactive.Cells","Inactive.Cell.Reps")])
+#names(ac_background_data)   = c("Date","Tag","Station","chipNum","Single Pores","Single Reps","Active Pores","Active Reps","Inactive Cells","Inactive Reps", "Percent Active Pores")
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   library(grid)
   

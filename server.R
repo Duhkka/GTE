@@ -1,5 +1,6 @@
 library(shiny)
 library(ggplot2)
+library(shinyBS)
 
 shinyServer(function(input, output,session) {
   output$ovdcPlot <- renderPlot({
@@ -33,7 +34,7 @@ shinyServer(function(input, output,session) {
       ids = ac_single_Dates>=start_date & ac_single_Dates <=end_date
       #tw = summary(as.factor(ac_single_data$tags))
       #tw[order(-tw),drop=TRUE]
-      qr = table(ac_single_data[,c("tags")][ids])
+      qr = table(ac_single_data[,c("Tag")][ids])
       #    dr = table(sdata[,c("Tag")][ids])
       #    qrd = qr[ids]
       qr[order(-qr),drop=TRUE]
@@ -63,7 +64,7 @@ shinyServer(function(input, output,session) {
 #     data.frame(ACTags())
 #     }
     ac_tags_data_frame
-  })
+  }, options = list(paging = FALSE, autoWidth = FALSE))
 
 # Generate a summary of dc data
 output$ovdcSummary <- renderDataTable({
@@ -81,7 +82,7 @@ output$ovdcSummary <- renderDataTable({
 #   {
   dc_tags_data_frame
 #   }
-})
+}, options = list(paging = FALSE, autoWidth = FALSE))
   output$acbacktable <- renderDataTable({
     oxdata=reactive({
       #      start_date = as.numeric(input$dateRange[1])
@@ -91,7 +92,7 @@ output$ovdcSummary <- renderDataTable({
       ac_background_data
     })
     data.frame(oxdata())  
-  })
+  }, options = list(paging = FALSE, autoWidth = FALSE))
 
   output$acltable <- renderDataTable({
     osdata=reactive({
@@ -99,28 +100,39 @@ output$ovdcSummary <- renderDataTable({
 #      end_date = as.numeric(input$dateRange[2])
 #      ids = ac_single_Dates>=start_date & ac_single_Dates <=end_date
 #      subset(ac_single_data, ids)
-       ac_single_data
+       ac_single_data       
     })
     data.frame(osdata()) 
   },
-options =  list(
+options =  list(paging = FALSE, autoWidth = FALSE,
   fnRowCallback = I("function( nRow, qData, iDisplayIndex, iDisplayIndexFull )     {f_fnRowCallback( nRow, qData, iDisplayIndex, iDisplayIndexFull ) }")))
-observe({   
+observe({  
+  print(noteText)
+  #toggleModal(session, "moMod", open)
   if(!is.null(input$request_data)){
+    print("HIYA")
     tag_note_mask <- ac_single
     tag_note_mask <- tag_note_mask[tag_note_mask[, "expDate"] == substr(gsub('-','',input$request_data[1]), 3, 8),]
-    print(tag_note_mask)
+    #print(tag_note_mask)
     tag_note_mask <- tag_note_mask[tag_note_mask[, "tags"] == input$request_data[2], ]    
     tag_note_mask <- tag_note_mask[tag_note_mask[, "stationID"] == input$request_data[3], ]  
     tag_note_mask <- tag_note_mask[tag_note_mask[, "chipNum"] == input$request_data[4], ]  
     if(length(tag_note_mask$Analysis.Notes) < 1)
     {
-      session$sendCustomMessage(type = "showRequested_data", paste("No Notes For This Entry!"))
+      #noteText="No Notes For This Entry!"
+      #print(noteText)
+      #toggleModal(session, "moMod", open)
+      
+      #session$sendCustomMessage(type = "showRequested_data", paste("No Notes For This Entry!"))
     }
     else
     {
-      session$sendCustomMessage(type = "showRequested_data", paste(tag_note_mask$Analysis.Notes))
+      noteText=tag_note_mask$Analysis.Notes
+      print(noteText)
+      #toggleModal(session, "moMod", open)
+      #session$sendCustomMessage(type = "showRequested_data", paste(tag_note_mask$Analysis.Notes))
     }
+    
   }
 })
 
@@ -134,7 +146,7 @@ observe({
     })
     data.frame(osdata())  
   },
-    options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE)
+    options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE, paging = FALSE)
   )
 
   output$dcbacktable <- renderDataTable({
@@ -147,7 +159,7 @@ observe({
     })
     data.frame(osdata())  
   },
-  options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE)
+  options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE, paging = FALSE)
   )
 
   output$dccytable <- renderDataTable({
@@ -160,7 +172,7 @@ observe({
     })
     data.frame(osdata())  
   },
-  options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE)
+  options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE, paging = FALSE)
   )
 
   output$dccomptable <- renderDataTable({
@@ -173,7 +185,7 @@ observe({
     })
     data.frame(osdata())  
   },
-  options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE)
+  options = list(lengthMenu = c(10, 20, 50), pageLength = 10,autoWidth = FALSE, paging = FALSE)
   )
 
   output$exTagDC <- renderPlot({ 
@@ -239,6 +251,7 @@ output$exTagAC <- renderPlot({
     multiplot(p1,p2,p3,p4,  cols=2) 
     
   })
-  TagAC() })
-
-})  
+  TagAC() 
+})
+})
+  
