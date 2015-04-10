@@ -1,8 +1,20 @@
 library(shiny)
 library(markdown)
 library(shinythemes)
+library(shinyBS)
 
 shinyUI(fluidPage(
+#   bsButton("moTrig", "Open Modal", style = "primary"),
+#   bsModal("moMod", "Example Modal", trigger="moTrig",
+#           tags$p(HTML(noteText)),
+#           tags$div(class = "row-fluid",
+#           tags$div(class = "span4 well control-panel",
+#                   sliderInput("moobs", "Number of observations:", min = 1, max = 1000, value = 500),
+#                   selectInput("modist", "Distribution", choices = c("Normal", "Lognormal", "Uniform", "Exponential")),
+#                   textInput("motitle", "Plot Title", "A Modal Plot")
+#           )
+#           )
+#   ),
   list(tags$head(HTML('<link rel="icon", href="images.jpeg", type="image/jpeg" />'))),
   div(header="",align="left",img(src="genia.png"),img(src="RocheSeq.png"),titlePanel(title="", windowTitle="Genia Tag Experiments")),  
   navbarPage(title ="TAG Experiments",collapsible = TRUE,inverse = FALSE,id = "NavTag",
@@ -66,12 +78,12 @@ shinyUI(fluidPage(
                    
         ),
         tags$head(tags$script("var f_fnRowCallback = function( nRow, qData, iDisplayIndex,     iDisplayIndexFull ){
-                          $('td', nRow).click( function(){Shiny.onInputChange('request_data',     [qData])} );
+                          $('td', nRow).click( function(){Shiny.onInputChange('f_fnRowCallback',     [qData])} );
                               }                                        
                               
-                              Shiny.addCustomMessageHandler('showRequested_data', function(x) { 
+                              Shiny.addCustomMessageHandler('fnRowCallback', function(x) { 
                               
-                              alert(x)
+                              uiOutput(x)
                               })"))
         )))
         
